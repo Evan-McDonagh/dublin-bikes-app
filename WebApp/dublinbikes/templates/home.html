@@ -395,6 +395,7 @@
 
                         });
                         $('.date-btn').each(function(index, obj){
+                            $(obj).off("click");
                             $(obj).click(function(){
                                 console.log(locData[i]["id"], index);
                                 // setGraph(chart,locData[i]["id"], index);
