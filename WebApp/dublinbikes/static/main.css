@@ -174,7 +174,7 @@ body {
   padding: 10px 10px;
   background-color: #f2f2f2;
   height: calc(100vh - 156px);
-  min-height: 400px;
+  min-height: 200px;
   width: 25%;
   min-width: 400px;
   max-width: 500px;
@@ -184,6 +184,8 @@ body {
   margin-top: 30px;
   margin-bottom: 100px;
   display: none;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 
