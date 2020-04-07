@@ -20,23 +20,23 @@
         <!-- datepicker-->
         <div class="datepicker-div">
             <div class="btn-group btn-group-toggle" data-toggle="buttons">
-                <label class="btn btn-outline-info active">
+                <label class="date-btn btn btn-outline-info active">
                 <span class="date-text" id = "button1"></span>
                 <input type="radio" name="options" id="option1" autocomplete="off" checked>
                 </label>
-                <label class="btn btn-outline-info">
+                <label class="date-btn btn btn-outline-info">
                     <span class="date-text" id="button2"></span>
                 <input type="radio" name="options" id="option2" autocomplete="off">
                 </label>
-                <label class="btn btn-outline-info">
+                <label class="date-btn btn btn-outline-info">
                     <span class="date-text" id = "button3"></span>
                 <input type="radio" name="options" id="option3" autocomplete="off">
                 </label>
-                <label class="btn btn-outline-info">
+                <label class="date-btn btn btn-outline-info">
                     <span class="date-text" id = "button4"></span>
                     <input type="radio" name="options" id="option4" autocomplete="off">
                 </label>
-                <label class="btn btn-outline-info">
+                <label class="date-btn btn btn-outline-info">
                     <span class="date-text" id = "button5"></span>
                     <input type="radio" name="options" id="option5" autocomplete="off">
             </div>
@@ -355,46 +355,53 @@
                         });
                             
 
-                            // get current time using Date object
-                            let d = new Date();
-                            let hour = d.getHours();
-                            let minutes = d.getMinutes();
-                            // round time nearest half hour
-                            if (minutes < 15) {
-                                minutes = 0;
-                            } else if (minutes >= 15 && minutes < 45) {
-                                minutes = 30;
-                            } else if (minutes > 45) {
-                                minutes = 0;
-                                hour = (hour + 1) % 24;
+                        // get current time using Date object
+                        let d = new Date();
+                        let hour = d.getHours();
+                        let minutes = d.getMinutes();
+                        // round time nearest half hour
+                        if (minutes < 15) {
+                            minutes = 0;
+                        } else if (minutes >= 15 && minutes < 45) {
+                            minutes = 30;
+                        } else if (minutes > 45) {
+                            minutes = 0;
+                            hour = (hour + 1) % 24;
+                        }
+                        let currentTime = hour + ":" + minutes;
+                        // create jquery timepicker
+                        $('#timepicker').timepicker({
+                            timeFormat: 'HH:mm',
+                            interval: 30,
+                            scrollbar: true,
+                            defaultTime: currentTime,
+                            dynamic: false
+                        });
+                        // date buttons
+                        const weekdays = ['Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
+                        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                        // loop through all elements in the class date-text 
+                        $('.date-text').each(function(index, obj){
+                            // create Date object
+                            let date = new Date();
+                            date.setDate(date.getDate() + index);
+                            if (date.getDate() < 10) {
+                                newdate = 0 + "" + date.getDate(); 
+                            } else {
+                                newdate = date.getDate();
                             }
-                            let currentTime = hour + ":" + minutes;
-                            // create jquery timepicker
-                            $('#timepicker').timepicker({
-                                timeFormat: 'HH:mm',
-                                interval: 30,
-                                scrollbar: true,
-                                defaultTime: currentTime,
-                                dynamic: false
-                            });
-                            // date buttons
-                            const weekdays = ['Mon', 'Tue', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun'];
-                            const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                            obj.innerHTML = weekdays[date.getDay()] + "<br> " + newdate + " " + months[date.getMonth()];
 
-                            // loop through all elements in the class date-text 
-                            $('.date-text').each(function(index, obj){
-                                // create Date object
-                                let date = new Date();
-                                date.setDate(date.getDate() + index);
-                                if (date.getDate() < 10) {
-                                    newdate = 0 + "" + date.getDate(); 
-                                } else {
-                                    newdate = date.getDate();
-                                }
-                                obj.innerHTML = weekdays[date.getDay()] + "<br> " + newdate + " " + months[date.getMonth()];
-
+                        });
+                        $('.date-btn').each(function(index, obj){
+                            $(obj).click(function(){
+                                console.log(locData[i]["id"], index);
+                                // setGraph(chart,locData[i]["id"], index);
                             });
-                    } 
+                    }); 
+                    
+                    }
 
 
                     
