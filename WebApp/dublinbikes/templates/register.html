@@ -1,11 +1,10 @@
 {% extends "layout.html" %}
-{% block static_pages %}
+{% block content %}
 <div class="content-section">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
         <fieldset class="form-group">
-            <legend class="border-bottom mb-4">Register</legend>
-            <p class="mb-sm">Register to add your most-visited stations to your favourites list.</p>
+            <legend class="border-bottom mb-4">Join Today</legend>
             <div class="form-group">
                 {{ form.email.label(class="form-control-label") }}
                 {% if form.email.errors %}
@@ -56,4 +55,4 @@
         Already Have An Account? <a class="ml-2" href="{{ url_for('login') }}">Sign In</a>
     </small>
 </div>
-{% endblock static_pages %}
+{% endblock content %}
