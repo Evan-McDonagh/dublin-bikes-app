@@ -71,10 +71,26 @@ Account changes: Once logged in, the user is able , add or remove favourites, to
 
 Confirmation email: When a user registers for the site or when they update their email address, a confirmation email is sent to the provided email address. This email contains a URL with a token that identifies the email address it was sent to. This token is valid for a fixed period of time, and when the user navigates to this URL within the time frame, the route checks the token against the email addresses in the database. If the email address is found, it confirms they have access to the email they provided. This allows us to set their emailvalidated staus to true.
 
-Password reset: Should the user forget their password, they have the option to reset it. This option is only available to a user when they have confirmed their email. Similary to the confirmation email, when a user requests a password reset for a confirmed email, they receive an email with a URL containing a time sensiteive token. This URL access the 'reset' route within Flask, which redirects them to a page which allows them to change their passwork
+Password reset: Should the user forget their password, they have the option to reset it. This option is only available to a user when they have confirmed their email. Similary to the confirmation email, when a user requests a password reset for a confirmed email, they receive an email with a URL containing a time sensiteive token. This URL access the 'reset' route within Flask, which redirects them to a page which allows them to enter a new password.
 
 
+Security
 
+There was a range of security concerns to consider during the creation of the web application. 
+
+
+SQL Injection
+
+SQL Injection can occur when a malicious user takes advantage of SQL statements being sent to a database, allowing them to gain access to sensitive information or
+to otherwise vandalise the database. In general, the HTTP requests sent to the Flask server contain arguments which are then used to find the right information in the database. A malicious user might replace the arguments in a HTTP request with some MySQL code which would cause undesirable behaviour in the database. In order to protect against this, we have ensured that we only access the database using 'callproc'. This function calls a stored procedure in the database with some given arguments. These arguments are escaped, however, meaning any SQL code inserted will be treated as a string of characters and not as executable code.
+
+
+CSRF
+
+Cross-site request forgery (CSRF) attacks are when an attacker causes a user logged in to a site (or otherwise trusted by the site) to submit a request they did not intend to. An example might be causing a user to change their password unknowingly to a password the attacker knows, allowing the attacker access to their details. All of the forms on our site are implemented using Flask WTF, which provides a very simple way in which to protect against these attack. A CSRF token is included with all the forms as they are submitted, and if a form is recieved by the server that does not contain this token, the request will not be processed.
+
+
+GDPR
 
 
 
