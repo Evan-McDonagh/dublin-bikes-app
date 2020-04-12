@@ -1,0 +1,137 @@
+
+
+
+
+Datascraping
+
+The first step we undertook in the setting up the backend of this project was the scraping of the data we would need. We wished to obtain as much data as possible in order to get the most out of our machine learning model.
+
+Bike Data
+
+There are two types of data available from the Dublin Bikes API !!![RE,F]!!! dynamic data and static data. The static data gives details of the station names and their coordinates. As implied by its name, this data does not change frequently, and does not need regular updating. The dynamic data provides the occupancy data for each station, including the number of bikes available and the status of the station (whether it is open or closed). This information is constantly changing, and as such needs constant updating. 
+
+For both of these types of data, we created python scripts to add the information to our database. Once these scripts were working from our local machines, we researched ways in which they could be could be run repeatedly and freqeuntly, such that the data in our database would always be up-to-date and so that we could store as much of the dynamic data as possible. We determined that it made most sense to use a virtual machine on Amazon's EC2 service. This VM would be constanty running and allow us to run the scripts at intervals at all times. One way in which we could have run the scripts at intervals was to use Python's 'sleep' function, and have the the main code block in an infinite while loop. We decided however, that it would be more elegant to use Linux's 'cron' module?????? . Cron is a task scheduler which allows the running or some abitrary code or function at regular intervals. We determined that the optimal timing for  the obaining of the dynmaic data is around 5 minutes, and the static data is updated daily.  
+
+Weather
+
+????
+
+
+
+
+
+
+
+
+
+Database
+
+There was a wide range of option for which database software to use, but we opted for a MySQL database simply because this is what we had most experience with. Our database has !!!!!!! schema: 
+	- dynamicdata
+	- staticdata
+	- weatherdata
+	- userinfo
+More deatails on these schema can be found in the appendix.
+The scraped data discussed in the previous section is stored in its corresponding table. the userinfo table store the login details and the favourited stations of each user and !!!!!!!!!!!
+In the case of the dynamic bike data and the weather data, every time the data is scraped, new rows are added to the tables This gives us a history of all bike movements and weather information from the time our scraping was set up unitl the present. When the staticinfo table is updated, the old data is not needed so it is overwritten. 
+
+As there is a limited set of SQL queries that we make to the database, we decided to create a stored procedure for each one. These are advantageous as they allow our python code to be simpler, due to the use of 'callproc', they can be more efficient when run multiple time, and they also provide an additional layer of security against SQL injection attacks. A list of these procedures along with their code can be found in the appendix.
+
+
+
+Backend/Frontend Communication
+
+A general overview of the commuication between the frontend and backend is as follows:
+
+	- The Flask server receives a HTTP request from the frontend code.
+	- The arguments in the HTTP request are used by Python to route it to the appropriate code block.
+	- Either a stored procedure is called in the database, or html template is rendred.
+	- The data or html is sent back as a ressponse to the HTTP request.
+
+Flask uses 'routes' to process the HTTP requests it receives, and provides the functionatily required to retrieve the arguments from it and send data back to it. We used quite a few routes, allowing us to easily separate the different backend functionalities in code. To begin with we follwed a tutorial be Corey Schaefer in order to learn how these routes worked, before then building on this and designing our own. !!![REF]!!! While building the site, and while testing our user stories, we noticed that one of the most frequenlty used routes is that named 'query'. !!!NEEDS NEW NAME!!! This route is used when a user requests current station information. Due to its frequent use, we wiched to ensuire that there was as little delay as possible in getting the information requested. For simplicity in coding we considered retrieving the current information at all stations when this route was requested, however we found that it was considerably quicker to get the minimum amount of data needed. Similar considerations were taken with all routes inorder to provide the user with the best experience. 
+
+
+
+
+
+Login Feature
+
+!!!!as discussed in front end!!! We decided that a good additional feature for this web app would be to allow the user have a list of favourited stations, allowing them to more easily access the information about them. We decided that the best way to implement this would be too allow the user to login using their email address. We could then store their favourited stations in the database along with their email address.
+
+
+
+This login feature is implemented using the 'flask_login' package, which adds a lot of the required functionality to Flask. Flask_login requires that a 'User' class be created, and an instance of this class is created when a user logs in. This instance is called current_user and its instance variables and associated methods are easily accesible in the code. 
+Our implementation of the User class takes an email address as an argument, retrieves all the information about that user from the database, and stores the data as instance variables. It also has methods which all for updating and deleting the user data stored in the database. 
+
+
+Register
+
+When a user 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
