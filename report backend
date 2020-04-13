@@ -1,5 +1,22 @@
 
+Front-end Login
 
+Once the main functionality of the frontend had been implemented, we then added the login feature. When a user is logged in, they are a presented with a slightly different version of the web page, with a favourites menu appearing in the navigation bar and an additional 'Add to favourites/Remove from Favourites' button appearing in the information section. They also have the option to access a form to edit their account details. Apart from this, the main functionaliy remains the same. The logic to display these different web pages to the logged in user is contained mostly in the back-end and makes use of the Jinja templating engine.
+
+
+The favourites menu is populated and behaves very similarly to the all stations menu, but is based on a list of station ids stored in the user's entry in the database, which are passed to the front end when the user logs in.
+
+The 'Add to favourites/Remove from Favourites' button appears when a user chooses to view more information about a station. When clicked, a function in JavaScript checks whether the current station is already in the favourites list, and sends a HTTP request to the server with the station ID and an add or remove argument as appropriate.
+
+A number of forms are also used. which are implemented using Flask WTF extension. This which allows for the simple creation of forms with validation in the back-end. All the forms were designed with ease of use in mind, in order to give the user a better experience.
+
+
+
+
+
+Backend overview
+
+The backend logic of this web app was implemented mainly using Python, making use of the Flask microframework and its extensions. One powerful feature offered by flask is its use of the Jinja template engine, which we used extensively to simplify the creation of the html templates, as well as to implement some of the login logic and the forms.
 
 
 Datascraping
@@ -87,45 +104,24 @@ to otherwise vandalise the database. In general, the HTTP requests sent to the F
 
 CSRF
 
-Cross-site request forgery (CSRF) attacks are when an attacker causes a user logged in to a site (or otherwise trusted by the site) to submit a request they did not intend to. An example might be causing a user to change their password unknowingly to a password the attacker knows, allowing the attacker access to their details. All of the forms on our site are implemented using Flask WTF, which provides a very simple way in which to protect against these attack. A CSRF token is included with all the forms as they are submitted, and if a form is recieved by the server that does not contain this token, the request will not be processed.
+Cross-site request forgery (CSRF) attacks occur when an attacker causes a user logged in to a site (or otherwise trusted by the site) to submit a request they did not intend to. An example might be causing a user to change their password unknowingly to a password the attacker knows, allowing the attacker access to their details. All of the forms on our site are implemented using Flask WTF, which provides a very simple way in which to protect against these attack. A CSRF token is included with all the forms as they are submitted, and if a form is recieved by the server that does not contain this token, the request will not be processed.
 
 
 GDPR
 
+	law.stackexchange.com/questions/32152/gdpr-cookie-for-login-management
+	!!!! ADD USES COOKIES TO REMEMBER ME !!!
+Cookies
+Under GDPR rules, a user must provide informed consent before a cookie can be placed on their computer. A common method of doing this is by displaying a banner over the web page when a user visits a site for the first time, prompting them to accept the use of cookies. As our site does not use any cookies unless the user is logged in, this was deemed unecessary. Instead, a message stating that by logging in, the user consents to the use of cookies is placed on the login page.
+
+Privacy Policy
+By law, any site with a login !!!CHECK!!! requires a privacy policy which details how a users data will be used. We created a privacy policy for our web app using a template obtained here !!! WHERE !!!. A link to the privacy policy is available on the registration page !!AND ACCOUNT PAGE!!! and we indicate to the user that by registering the agree to the term in the privacy policy.
 
 
 
+Data Storage
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+The GPPR policy on data storage states that the level of security needed is dependant on the level of sensitivity of the data !!!LINK!!!. We only store the users email address, their encrypted password, and their favourite stations, and thus we deemed a secure database with restricted access sufficient to comply with GDPR.
 
 
 
